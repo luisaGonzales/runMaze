@@ -85,3 +85,27 @@ button:hover {
 table {
     border-spacing: 0;
 }
+
+.up {
+    background-color: #e8e8e8;
+    background-image: url(../images/up.png);
+    background-size: contain;
+}
+
+.down {
+    background-color: #e8e8e8;
+    background-image: url(../images/down.png);
+    background-size: contain;
+}
+
+.left {
+    background-color: #e8e8e8;
+    background-image: url(../images/left.png);
+    background-size: contain;
+}
+
+.rigth {
+    background-color: #e8e8e8;
+    background-image: url(../images/rigth.png);
+    background-size: contain;
+}

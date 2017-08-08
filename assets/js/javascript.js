@@ -14,6 +14,8 @@ var mapa = [
 
 var posI;
 var posJ;
+var reset = [];
+var win = [];
 
 function getMaze(mapa) {
     var tablero = document.getElementById('tablero');
@@ -30,14 +32,15 @@ function getMaze(mapa) {
             } else if (mapa[i][j] == "o") {
                 posJ = j;
                 posI = i;
+                reset.push(i);
+                reset.push(j);
                 celda.setAttribute('class', 'init');
             } else if (mapa[i][j] == "W") {
+                win.push(i);
+                win.push(j);
                 celda.setAttribute('class', 'final');
             }
             celda.setAttribute("id", i + "," + j)
-            var div = document.createElement("div");
-            div.setAttribute("class", "flechas");
-            celda.appendChild(div);
             fila.appendChild(celda);
         }
         tabla.appendChild(fila);
@@ -61,69 +64,84 @@ placeMaze.onclick = function () {
 }
 
 start.onclick = function () {
-    var contInicio = 1;
-    var temp0 = posI + "," + posJ;
-    document.getElementById(temp0).innerHTML = "";
-    
-    //var img = document.createElement("img");
-    //img.src = "../images/up.png";
-    var img = "*";
-    var celdaInit = document.getElementsByClassName("init");
-    if (contInicio == 1) {
-        celdaInit[0].innerHTML = img;
-    }
-    posI = 9;
-    posJ = 1;
+    startFunction();
 }
 
-var count = 0;
 moveUp.onclick = function () {
-    var imgUp = "^";
+    moveUpFunction();
+    gameWin();
+}
+
+moveDown.onclick = function () {
+    moveDownFunction();
+    gameWin();
+}
+
+moveRigth.onclick = function () {
+    moveRigthFunction();
+    gameWin();
+}
+
+moveLeft.onclick = function () {
+    moveLeftFunction();
+    gameWin();
+}
+
+function startFunction() {
+    if ((posI != reset[0]) || (posJ != reset[1])) {
+        var temp1 = posI + "," + posJ;
+        document.getElementById(temp1).setAttribute("class", "space");
+        posI = reset[0];
+        posJ = reset[1];
+    }
+    var temp0 = reset[0] + "," + reset[1];
+    document.getElementById(temp0).setAttribute("class", "up");
+}
+
+function moveUpFunction() {
     if (mapa[(posI - 1)][posJ] != "*") {
         var temp0 = posI + "," + posJ;
         var temp1 = (posI - 1) + "," + posJ;
-        document.getElementById(temp0).innerHTML = "";
-        document.getElementById(temp1).innerHTML = imgUp;
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp1).setAttribute("class", "up");
         posI--;
     }
 }
 
-moveDown.onclick = function () {
-    var imgDown = "-";
+function moveDownFunction() {
     if (mapa[(posI + 1)][posJ] != "*") {
         var temp0 = posI + "," + posJ;
         var temp1 = (posI + 1) + "," + posJ;
-        document.getElementById(temp0).innerHTML = "";
-        document.getElementById(temp1).innerHTML = imgDown;
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp1).setAttribute("class", "down");
         posI++;
+
     }
 }
 
-moveRigth.onclick = function () {
-    var imgRigth = ">";
+function moveRigthFunction() {
     if (mapa[posI][posJ + 1] != "*") {
         var temp0 = posI + "," + posJ;
         var temp1 = posI + "," + (posJ + 1);
-        document.getElementById(temp1).innerHTML = imgRigth;
-        document.getElementById(temp0).innerHTML = "";
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp1).setAttribute("class", "rigth");
         posJ++;
+
     }
 }
 
-moveLeft.onclick = function () {
-    var imgLeft = "<";
+function moveLeftFunction() {
     if (mapa[posI][posJ - 1] != "*") {
         var temp0 = posI + "," + posJ;
         var temp1 = posI + "," + (posJ - 1);
-        document.getElementById(temp1).innerHTML = imgLeft;
-        document.getElementById(temp0).innerHTML = "";
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp1).setAttribute("class", "left");
         posJ--;
     }
 }
 
-var celdaInicial = document.getElementById("9,1")
-var celdaFinal = document.getElementById("9,16");
-var final = document.getElementById(posI + "," + posJ);
-if((celdaFinal == final) && (final != celdaInicial )){
-    alert("Ganaste!!");
+function gameWin() {
+    if ((posI == win[0]) && (posJ == win[1]) && (posI != undefined) && (posJ != undefined)) {
+        return (alert("Ganaste!!"));
+    }
 }
