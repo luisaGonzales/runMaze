@@ -53,27 +53,20 @@ var start = document.getElementById("start");
 var moveLeft = document.getElementById("moveLeft");
 var moveRigth = document.getElementById("moveRigth");
 var moveUp = document.getElementById("moveUp");
-var moveDown = document.getElementById("moveDown");
-//Función para poder dibujar diversos mapas futuros y tener muchos más mapas
+var showExit = document.getElementById("showExit");
+
 var contador = 0;
 placeMaze.onclick = function () {
-    contador++;
-    if (contador == 1) {
+    if (contador == 0) {
         getMaze(mapa);
     }
 }
-
 start.onclick = function () {
     startFunction();
 }
 
 moveUp.onclick = function () {
-    moveUpFunction();
-    gameWin();
-}
-
-moveDown.onclick = function () {
-    moveDownFunction();
+    moveForward();
     gameWin();
 }
 
@@ -98,45 +91,71 @@ function startFunction() {
     document.getElementById(temp0).setAttribute("class", "up");
 }
 
-function moveUpFunction() {
-    if (mapa[(posI - 1)][posJ] != "*") {
-        var temp0 = posI + "," + posJ;
-        var temp1 = (posI - 1) + "," + posJ;
-        document.getElementById(temp0).setAttribute("class", "space");
-        document.getElementById(temp1).setAttribute("class", "up");
-        posI--;
-    }
-}
-
-function moveDownFunction() {
-    if (mapa[(posI + 1)][posJ] != "*") {
-        var temp0 = posI + "," + posJ;
-        var temp1 = (posI + 1) + "," + posJ;
-        document.getElementById(temp0).setAttribute("class", "space");
-        document.getElementById(temp1).setAttribute("class", "down");
-        posI++;
-
-    }
-}
-
 function moveRigthFunction() {
-    if (mapa[posI][posJ + 1] != "*") {
-        var temp0 = posI + "," + posJ;
-        var temp1 = posI + "," + (posJ + 1);
+    var temp0 = posI + "," + posJ;
+    if (document.getElementById(temp0).classList.value == "up") {
         document.getElementById(temp0).setAttribute("class", "space");
-        document.getElementById(temp1).setAttribute("class", "rigth");
-        posJ++;
-
+        document.getElementById(temp0).setAttribute("class", "rigth");
+    } else if (document.getElementById(temp0).classList.value == "rigth") {
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp0).setAttribute("class", "down");
+    } else if (document.getElementById(temp0).classList.value == "down") {
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp0).setAttribute("class", "left");
+    } else if (document.getElementById(temp0).classList.value == "left") {
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp0).setAttribute("class", "up");
     }
 }
 
 function moveLeftFunction() {
-    if (mapa[posI][posJ - 1] != "*") {
-        var temp0 = posI + "," + posJ;
-        var temp1 = posI + "," + (posJ - 1);
+    var temp0 = posI + "," + posJ;
+    if (document.getElementById(temp0).classList.value == "up") {
         document.getElementById(temp0).setAttribute("class", "space");
-        document.getElementById(temp1).setAttribute("class", "left");
-        posJ--;
+        document.getElementById(temp0).setAttribute("class", "left");
+    } else if (document.getElementById(temp0).classList.value == "left") {
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp0).setAttribute("class", "down");
+    } else if (document.getElementById(temp0).classList.value == "down") {
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp0).setAttribute("class", "rigth");
+    } else if (document.getElementById(temp0).classList.value == "rigth") {
+        document.getElementById(temp0).setAttribute("class", "space");
+        document.getElementById(temp0).setAttribute("class", "up");
+    }
+}
+
+function moveForward() {
+    var temp0 = posI + "," + posJ;
+    if (document.getElementById(temp0).classList.value == "rigth") {
+        if (mapa[posI][posJ + 1] != "*") {
+            var temp1 = posI + "," + (posJ + 1);
+            document.getElementById(temp0).setAttribute("class", "space");
+            document.getElementById(temp1).setAttribute("class", "rigth");
+            posJ++;
+        }
+    } else if (document.getElementById(temp0).classList.value == "left") {
+        if (mapa[posI][posJ - 1] != "*") {
+            var temp1 = posI + "," + (posJ - 1);
+            document.getElementById(temp0).setAttribute("class", "space");
+            document.getElementById(temp1).setAttribute("class", "left");
+            posJ--;
+        }
+    } else if (document.getElementById(temp0).classList.value == "up") {
+        if (mapa[(posI - 1)][posJ] != "*") {
+            var temp0 = posI + "," + posJ;
+            var temp1 = (posI - 1) + "," + posJ;
+            document.getElementById(temp0).setAttribute("class", "space");
+            document.getElementById(temp1).setAttribute("class", "up");
+            posI--;
+        }
+    } else if (document.getElementById(temp0).classList.value == "down") {
+        if (mapa[(posI + 1)][posJ] != "*") {
+            var temp1 = (posI + 1) + "," + posJ;
+            document.getElementById(temp0).setAttribute("class", "space");
+            document.getElementById(temp1).setAttribute("class", "down");
+            posI++;
+        }
     }
 }
 
